@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgres:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - grpc-gateway
+
+  gateway:
+    restart: always
+    build:
+      context: ./
+      dockerfile: gateway.Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    environment:
+      - DB_PASSWORD=postgres
+    networks:
+      - grpc-gateway
+
+  auth:
+    restart: always
+    build:
+      context: ./
+      dockerfile: auth.Dockerfile
+    ports:
+      - 50051:50051
+    depends_on:
+      - postgres
+    environment:
+      - DB_PASSWORD=postgres
+    networks:
+      - grpc-gateway
+
+  product:
+    restart: always
+    build:
+      context: ./
+      dockerfile: product.Dockerfile
+    ports:
+      - 50052:50052
+    depends_on:
+      - postgres
+    environment:
+      - DB_PASSWORD=postgres
+    networks:
+      - grpc-gateway
+
+  order:
+    restart: always
+    build:
+      context: ./
+      dockerfile: order.Dockerfile
+    ports:
+      - 50053:50053
+    depends_on:
+      - postgres
+    environment:
+      - DB_PASSWORD=postgres
+    networks:
+      - grpc-gateway
+
+networks:
+  grpc-gateway:
