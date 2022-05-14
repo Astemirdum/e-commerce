@@ -1,0 +1,4 @@
+grpc-gateway:
+  addr: localhost
+  port: 8080
+

@@ -1,0 +1,4 @@
+
+auth:
+  addr: "localhost"
+  port: 50051

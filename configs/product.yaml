@@ -1,0 +1,4 @@
+
+product:
+  addr: "localhost"
+  port: 50052
