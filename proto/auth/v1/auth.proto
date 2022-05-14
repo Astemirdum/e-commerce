@@ -1,0 +1,78 @@
+syntax = 'proto3';
+
+package auth.v1;
+
+option go_package = 'github.com/Astemirdum/e-commerce/proto/auth;authv1';
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Authorization service";
+    version: "v1";
+  };
+  schemes: [HTTP, HTTPS];
+  base_path: "/api/v1";
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "register user";
+    };
+    option (google.api.http) = {
+      post: "/register";
+      body: "*"
+    };
+  }
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "login user";
+    };
+    option (google.api.http) = {
+      post: "/login";
+      body: "*"
+    };
+  }
+  rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+message RegisterRequest {
+  string email = 1 [json_name = "email"];
+  string password = 2[json_name= "password"];
+}
+
+message RegisterResponse{}
+
+message LoginRequest{
+  string email = 1 [json_name = "email"];
+  string password = 2 [json_name= "password"];
+}
+
+message LoginResponse{
+  string token = 1 [json_name = "token"];
+}
+
+message ValidateRequest{
+  string token = 1 [json_name = "token"];
+}
+
+message ValidateResponse{
+  int64 user_id = 1 [json_name = "user_id"];
+}

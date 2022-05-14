@@ -1,0 +1,83 @@
+syntax = 'proto3';
+
+package product.v1;
+
+option go_package = 'github.com/Astemirdum/e-commerce/proto/product;productv1';
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Product service";
+    version: "v1";
+  };
+  schemes: [HTTP, HTTPS];
+  base_path: "/api/v1";
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
+
+service ProductService {
+  rpc Create(CreateRequest) returns (CreateResponse) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "create product";
+    };
+    option (google.api.http) = {
+      post: "/create-product";
+      body: "*"
+    };
+  }
+  rpc FindOne(FindOneRequest) returns (FindOneResponse) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "find available product";
+    };
+    option (google.api.http) = {
+      get: "/get-product";
+    };
+  }
+  rpc DecreaseStock(DecreaseStockRequest) returns (DecreaseStockResponse) {}
+}
+
+message CreateRequest{
+  string name = 1;
+  string sku = 4;
+  int64 stock = 2;
+  int64 price = 3;
+}
+
+message CreateResponse{
+  int64 id = 1;
+}
+
+message FindOneRequest{
+  string name = 1;
+  string sku = 4;
+}
+
+message FindOneResponse{
+  int64 id = 1;
+}
+
+message DecreaseStockRequest{
+  int64 id = 1;
+  int64 order_id = 2;
+  int64 count = 3;
+}
+
+message DecreaseStockResponse{}
+
