@@ -32,8 +32,19 @@
               "$ref": "#/definitions/v1CreateResponse"
             }
           },
+          "403": {
+            "description": "Returned when the user does not have permission to access the resource.",
+            "schema": {}
+          },
           "404": {
             "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "501": {
+            "description": "Returned when the method does not exist.",
             "schema": {
               "type": "string",
               "format": "string"
@@ -72,8 +83,19 @@
               "$ref": "#/definitions/v1FindOneResponse"
             }
           },
+          "403": {
+            "description": "Returned when the user does not have permission to access the resource.",
+            "schema": {}
+          },
           "404": {
             "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "501": {
+            "description": "Returned when the method does not exist.",
             "schema": {
               "type": "string",
               "format": "string"
@@ -88,16 +110,11 @@
         },
         "parameters": [
           {
-            "name": "name",
+            "name": "id",
             "in": "query",
             "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sku",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -137,9 +154,6 @@
     "v1CreateRequest": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "sku": {
           "type": "string"
         },
@@ -168,7 +182,26 @@
     "v1FindOneResponse": {
       "type": "object",
       "properties": {
+        "product": {
+          "$ref": "#/definitions/v1Product"
+        }
+      }
+    },
+    "v1Product": {
+      "type": "object",
+      "properties": {
         "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sku": {
+          "type": "string"
+        },
+        "stock": {
+          "type": "string",
+          "format": "int64"
+        },
+        "price": {
           "type": "string",
           "format": "int64"
         }

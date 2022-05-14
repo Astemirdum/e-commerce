@@ -19,9 +19,26 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   consumes: "application/json";
   produces: "application/json";
   responses: {
+    key: "403";
+    value: {
+      description: "Returned when the user does not have permission to access the resource.";
+    }
+  }
+  responses: {
     key: "404";
     value: {
       description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+  responses: {
+    key: "501";
+    value: {
+      description: "Returned when the method does not exist.";
       schema: {
         json_schema: {
           type: STRING;
@@ -55,7 +72,7 @@ service AuthService {
 
 message RegisterRequest {
   string email = 1 [json_name = "email"];
-  string password = 2[json_name= "password"];
+  string password = 2 [json_name= "password"];
 }
 
 message RegisterResponse{}

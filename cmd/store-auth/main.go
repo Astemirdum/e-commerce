@@ -17,7 +17,7 @@ func main() {
 	fmt.Println(textArt)
 
 	cfg := initConfigs()
-
+	fmt.Println(*cfg)
 	if err := service.Run(cfg); err != nil {
 		log.Fatal(err)
 	}
