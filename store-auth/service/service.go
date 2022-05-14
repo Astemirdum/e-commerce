@@ -15,25 +15,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-type AuthConfig struct {
-	Addr      string `yaml:"addr"`
-	Port      int    `yaml:"port"`
-	SecretKey string `yaml:"key"`
-}
-
-type ConfigDB struct {
-	Username string `yaml:"username"`
-	Host     string `yaml:"host"`
-	Port     int    `yaml:"port"`
-	Dbname   string `yaml:"dbname"`
-	Password string `yaml:"password"`
-}
-
-type Config struct {
-	Auth AuthConfig `yaml:"auth"`
-	DB   ConfigDB   `yaml:"db"`
-}
-
 func Run(cfg *Config) error {
 	log := zap.NewExample().Named("auth")
 
