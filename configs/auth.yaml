@@ -2,3 +2,12 @@
 auth:
   addr: "localhost"
   port: 50051
+  key: oiqwc#b891FEWFWSD
+
+
+db:
+  username: "postgres"
+  password: "postgres"
+  host: "localhost"
+  port: 5432
+  dbname: "postgres"

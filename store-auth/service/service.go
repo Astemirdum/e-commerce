@@ -2,42 +2,76 @@ package service
 
 import (
 	"fmt"
-	authv1 "github.com/Astemirdum/e-commerce/gen/auth/v1"
-	"github.com/Astemirdum/e-commerce/store-auth/internal/service"
-	"google.golang.org/grpc"
-	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
+
+	authv1 "github.com/Astemirdum/e-commerce/gen/auth/v1"
+	"github.com/Astemirdum/e-commerce/store-auth/internal/repo"
+	"github.com/Astemirdum/e-commerce/store-auth/internal/service"
+
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
 )
 
 type AuthConfig struct {
-	Addr string `yaml:"addr"`
-	Port int    `yaml:"port"`
+	Addr      string `yaml:"addr"`
+	Port      int    `yaml:"port"`
+	SecretKey string `yaml:"key"`
 }
 
-func Run(cfg AuthConfig) error {
+type ConfigDB struct {
+	Username string `yaml:"username"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Dbname   string `yaml:"dbname"`
+	Password string `yaml:"password"`
+}
+
+type Config struct {
+	Auth AuthConfig `yaml:"auth"`
+	DB   ConfigDB   `yaml:"db"`
+}
+
+func Run(cfg *Config) error {
+	log := zap.NewExample().Named("auth")
+
+	url := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable",
+		cfg.DB.Host, cfg.DB.Port, cfg.DB.Username, cfg.DB.Dbname, cfg.DB.Password)
+	db, err := repo.PGConn(url)
+	if err != nil {
+		log.Error("db conn fail", zap.Error(err))
+		return err
+	}
+
+	repository := repo.NewRepository(db)
+
+	srv := service.NewAuthServer(
+		repository,
+		service.NewJwtWrapper(cfg.Auth.SecretKey, "store-auth", 15),
+		zap.NewExample().Named("service"),
+	)
 
 	s := grpc.NewServer()
-	addr := fmt.Sprintf("%s:%d", cfg.Addr, cfg.Port)
+	addr := fmt.Sprintf("%s:%d", cfg.Auth.Addr, cfg.Auth.Port)
 	ls, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
 
-	authv1.RegisterAuthServiceServer(s, &service.AuthServer{})
+	authv1.RegisterAuthServiceServer(s, srv)
 
-	log.Printf("server has started listen on %s", addr)
+	log.Info("server has started listen on %s", zap.String("addr", addr))
 	go func() {
 		if err := s.Serve(ls); err != nil {
-			log.Printf("auth server stop %v", err)
+			log.Debug("auth server stop %v", zap.Error(err))
 		}
 	}()
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 	<-stop
-	log.Println("graceful shutdown")
+	log.Info("graceful shutdown")
 	_ = ls.Close()
 	s.GracefulStop()
 

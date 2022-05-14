@@ -18,16 +18,12 @@ func main() {
 
 	cfg := initConfigs()
 
-	if err := service.Run(cfg.Auth); err != nil {
+	if err := service.Run(cfg); err != nil {
 		log.Fatal(err)
 	}
 }
 
-type Config struct {
-	Auth service.AuthConfig `yaml:"auth"`
-}
-
-func initConfigs() *Config {
+func initConfigs() *service.Config {
 	var cfgPath string
 	flag.StringVar(&cfgPath, "c", "", "config file")
 	flag.Parse()
@@ -43,14 +39,14 @@ func initConfigs() *Config {
 		if err != nil {
 			log.Fatal(err)
 		}
-		cfg := &Config{}
+		cfg := &service.Config{}
 		err = yaml.Unmarshal(data, &cfg)
 		if err != nil {
 			log.Fatal(err)
 		}
 		return cfg
 	}
-	return &Config{
+	return &service.Config{
 		Auth: service.AuthConfig{Addr: "localhost", Port: 50051},
 	}
 }
