@@ -3,6 +3,10 @@ order:
   addr: "localhost"
   port: 50053
 
+product:
+  addr: "localhost"
+  port: 50052
+
 db:
   username: "postgres"
   password: "postgres"

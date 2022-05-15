@@ -1,9 +1,13 @@
 package service
 
 type OrderConfig struct {
-	Addr      string `yaml:"addr"`
-	Port      int    `yaml:"port"`
-	SecretKey string `yaml:"key"`
+	Addr string `yaml:"addr"`
+	Port int    `yaml:"port"`
+}
+
+type ProductConfig struct {
+	Addr string `yaml:"addr"`
+	Port int    `yaml:"port"`
 }
 
 type ConfigDB struct {
@@ -15,6 +19,7 @@ type ConfigDB struct {
 }
 
 type Config struct {
-	Order OrderConfig `yaml:"order"`
-	DB    ConfigDB    `yaml:"db"`
+	Order   OrderConfig   `yaml:"order"`
+	DB      ConfigDB      `yaml:"db"`
+	Product ProductConfig `yaml:"product"`
 }

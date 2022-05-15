@@ -26,7 +26,6 @@ func Run(cfg *Config) error {
 	}
 
 	repository := repo.NewProductRepository(db)
-
 	srv := service.NewProductServer(repository, log.Named("service"))
 
 	s := grpc.NewServer()

@@ -57,7 +57,7 @@ func (s *ProductServer) DecreaseStock(ctx context.Context, req *productv1.Decrea
 		s.log.Error("update product", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "%v", err)
 	}
-
+	// Idempotence
 	if err = s.repo.CreateOrderLog(ctx, &repo.StockRequest{
 		ProductId: req.GetId(),
 		OrderId:   req.GetOrderId(),
