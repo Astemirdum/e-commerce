@@ -29,8 +29,8 @@ func (s *OrderServer) CreateOrder(ctx context.Context, req *orderv1.CreateOrderR
 	}); err != nil {
 		s.log.Error("decreaseStock", zap.Error(err))
 		order.Failed = true
-		if err = s.repo.UpdateProduct(ctx, order); err != nil {
-			s.log.Error("decreaseStock", zap.Error(err))
+		if err := s.repo.UpdateProduct(ctx, order); err != nil {
+			s.log.Error("updateProduct", zap.Error(err))
 		}
 		return nil, status.Errorf(status.Code(err), "decreaseStock fail: %v", err)
 	}

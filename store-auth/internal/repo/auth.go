@@ -34,22 +34,27 @@ var (
 func (db *pDB) Create(ctx context.Context, req *UserRequest) error {
 	var user models.User
 
-	if db.DB.WithContext(ctx).Where(&models.User{Email: req.Email}).First(nil).Error == nil {
+	if res := db.DB.Debug().WithContext(ctx).Where(&models.User{Email: req.Email}).First(&user); res.Error == nil {
 		return ErrAlreadyExists
 	}
 
 	user.Email = req.Email
 	user.Password = genPasswordHash(req.Password)
-	return db.DB.Create(user).Error
+	return db.DB.Create(&user).Error
 }
 
 func (db *pDB) Get(ctx context.Context, req *UserRequest) (*models.User, error) {
-	var user *models.User
+	var user models.User
 
-	if err := db.DB.WithContext(ctx).Where(&models.User{Email: req.Email}).First(user).Error; err != nil {
-		return nil, errors.Errorf("user not authorized: %v", err)
+	if res := db.DB.WithContext(ctx).Where(&models.User{Email: req.Email}).First(&user); res.Error != nil {
+		return nil, errors.Errorf("user not authorized: %v", res.Error.Error())
 	}
-	return user, nil
+
+	if user.Password != genPasswordHash(req.Password) {
+		return nil, errors.New("wrong password")
+	}
+
+	return &user, nil
 }
 
 func genPasswordHash(pass string) string {

@@ -20,7 +20,6 @@ import (
 	"github.com/go-yaml/yaml"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
 )
 
 const textArt = "E-commerce GATEWAY"
@@ -41,7 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s := newServer(addr)
+	s := newServer(cfg)
 
 	log.Printf("server has started listen on %s", addr)
 	go func() {
@@ -66,6 +65,10 @@ type Config struct {
 type ServerConfig struct {
 	Addr string `yaml:"addr"`
 	Port int    `yaml:"port"`
+
+	Auth    string `yaml:"addr-auth"`
+	Product string `yaml:"addr-product"`
+	Order   string `yaml:"addr-order"`
 }
 
 func initConfigs() *Config {
@@ -97,32 +100,32 @@ func initConfigs() *Config {
 	}
 }
 
-func newServer(addr string) http.Server {
+func newServer(cfg *Config) http.Server {
 	mux := runtime.NewServeMux(
-		runtime.WithMetadata(func(ctx context.Context, request *http.Request) metadata.MD {
-			token := request.Header.Get("Authorization")
-			return metadata.Pairs("auth", token)
-		}),
-		runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux,
-			marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
-			newError := runtime.HTTPStatusError{
-				HTTPStatus: 400,
-				Err:        err,
-			}
-			runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
-		}),
+	//runtime.WithMetadata(func(ctx context.Context, request *http.Request) metadata.MD {
+	//	token := request.Header.Get("Authorization")
+	//	return metadata.Pairs("auth", token)
+	//}),
+	//runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux,
+	//	marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
+	//	newError := runtime.HTTPStatusError{
+	//		HTTPStatus: 400,
+	//		Err:        err,
+	//	}
+	//	runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
+	//}),
 	)
 
 	if err := authv1.RegisterAuthServiceHandlerFromEndpoint(context.Background(), mux,
-		addr, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
+		cfg.Auth, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
 		log.Fatal(err)
 	}
 	if err := orderv1.RegisterOrderServiceHandlerFromEndpoint(context.Background(), mux,
-		addr, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
+		cfg.Order, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
 		log.Fatal(err)
 	}
 	if err := productv1.RegisterProductServiceHandlerFromEndpoint(context.Background(), mux,
-		addr, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
+		cfg.Product, []grpc.DialOption{grpc.WithInsecure()}); err != nil {
 		log.Fatal(err)
 	}
 

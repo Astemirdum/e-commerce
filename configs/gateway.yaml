@@ -1,4 +1,7 @@
 grpc-gateway:
   addr: localhost
   port: 8080
+  addr-auth: "localhost:50051"
+  addr-product: "localhost:50052"
+  addr-order: "localhost:50053"
 

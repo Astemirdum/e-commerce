@@ -15,9 +15,9 @@ func NewpDB(db *gorm.DB) *pDB {
 }
 
 func (db *pDB) CreateOrder(ctx context.Context, order *models.Order) error {
-	return db.DB.WithContext(ctx).Create(order).Error
+	return db.DB.Debug().WithContext(ctx).Create(order).Error
 }
 
 func (db *pDB) UpdateProduct(ctx context.Context, order *models.Order) error {
-	return db.DB.WithContext(ctx).Save(order).Error
+	return db.DB.Debug().WithContext(ctx).Save(order).Error
 }

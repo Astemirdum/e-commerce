@@ -21,7 +21,7 @@ func (s *ProductServer) Create(ctx context.Context, req *productv1.CreateRequest
 		s.log.Error("create product", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "create product fail: %v", err)
 	}
-	s.log.Info("product created with id", zap.Int64("product id", productId))
+	s.log.Info("product created", zap.Int64("product id", productId))
 	return &productv1.CreateResponse{Id: productId}, nil
 }
 
@@ -42,7 +42,7 @@ func (s *ProductServer) FindOne(ctx context.Context, req *productv1.FindOneReque
 }
 
 func (s *ProductServer) DecreaseStock(ctx context.Context, req *productv1.DecreaseStockRequest) (*productv1.DecreaseStockResponse, error) {
-	product, err := s.repo.FindOne(ctx, req.GetOrderId())
+	product, err := s.repo.FindOne(ctx, req.GetId())
 	if err != nil {
 		s.log.Error("product not found", zap.Error(err))
 		return nil, status.Errorf(codes.NotFound, "product not found %v", err)

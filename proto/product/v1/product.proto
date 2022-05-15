@@ -63,7 +63,7 @@ service ProductService {
       summary: "find available product";
     };
     option (google.api.http) = {
-      get: "/get-product";
+      get: "/get-product/{id}";
     };
   }
   rpc DecreaseStock(DecreaseStockRequest) returns (DecreaseStockResponse) {}

@@ -72,7 +72,7 @@
         ]
       }
     },
-    "/get-product": {
+    "/get-product/{id}": {
       "get": {
         "summary": "find available product",
         "operationId": "ProductService_FindOne",
@@ -111,8 +111,8 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "string",
             "format": "int64"
           }

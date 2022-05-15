@@ -7,6 +7,7 @@ import (
 
 type ProductClientService struct {
 	productv1.ProductServiceClient
+	Close func() error
 }
 
 func NewProductClientService(addr string) (*ProductClientService, error) {
@@ -14,5 +15,9 @@ func NewProductClientService(addr string) (*ProductClientService, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &ProductClientService{productv1.NewProductServiceClient(cc)}, nil
+
+	return &ProductClientService{
+		ProductServiceClient: productv1.NewProductServiceClient(cc),
+		Close:                cc.Close,
+	}, nil
 }
