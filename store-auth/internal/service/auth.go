@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"errors"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	authv1 "github.com/Astemirdum/e-commerce/gen/auth/v1"
 	"github.com/Astemirdum/e-commerce/store-auth/internal/repo"
 	"go.uber.org/zap"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (s *AuthServer) Register(ctx context.Context, req *authv1.RegisterRequest) (*authv1.RegisterResponse, error) {

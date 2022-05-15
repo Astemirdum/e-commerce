@@ -1,4 +1,8 @@
 
+run:
+	docker-compose up --build
 
-proto:
-	buf lint && buf build && buf generate proto
+gen-proto:
+	buf build && buf generate proto
+
+.PHONY: run, gen-proto

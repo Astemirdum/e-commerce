@@ -2,9 +2,10 @@ package service
 
 import (
 	"errors"
+	"time"
+
 	"github.com/Astemirdum/e-commerce/store-auth/internal/models"
 	"github.com/golang-jwt/jwt"
-	"time"
 )
 
 type JwtWrapper struct {

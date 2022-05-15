@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"google.golang.org/grpc/metadata"
 	"io"
 	"log"
 	"net"
@@ -21,6 +20,7 @@ import (
 	"github.com/go-yaml/yaml"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 const textArt = "E-commerce GATEWAY"
@@ -108,14 +108,6 @@ func newServer(cfg *Config) http.Server {
 			log.Println("token", token)
 			return metadata.Pairs("auth", token)
 		}),
-		//runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux,
-		//	marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
-		//	newError := runtime.HTTPStatusError{
-		//		HTTPStatus: 400,
-		//		Err:        err,
-		//	}
-		//	runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
-		//}),
 	)
 
 	if err := authv1.RegisterAuthServiceHandlerFromEndpoint(context.Background(), mux,

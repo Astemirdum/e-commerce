@@ -10,7 +10,6 @@ import (
 	authv1 "github.com/Astemirdum/e-commerce/gen/auth/v1"
 	"github.com/Astemirdum/e-commerce/store-auth/internal/repo"
 	"github.com/Astemirdum/e-commerce/store-auth/internal/service"
-
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )

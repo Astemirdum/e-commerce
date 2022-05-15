@@ -1,11 +1,12 @@
 version: '3.8'
 
 services:
-  postgres:
+  db:
     restart: always
     image: postgres:latest
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
     environment:
@@ -23,7 +24,7 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - postgres
+      - db
     networks:
       - grpc-gateway
 
@@ -35,7 +36,7 @@ services:
     ports:
       - 50051:50051
     depends_on:
-      - postgres
+      - db
     networks:
       - grpc-gateway
 
@@ -47,7 +48,7 @@ services:
     ports:
       - 50052:50052
     depends_on:
-      - postgres
+      - db
     networks:
       - grpc-gateway
 
@@ -59,7 +60,7 @@ services:
     ports:
       - 50053:50053
     depends_on:
-      - postgres
+      - db
     networks:
       - grpc-gateway
 
