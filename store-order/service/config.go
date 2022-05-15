@@ -10,6 +10,11 @@ type ProductConfig struct {
 	Port int    `yaml:"port"`
 }
 
+type AuthConfig struct {
+	Addr string `yaml:"addr"`
+	Port int    `yaml:"port"`
+}
+
 type ConfigDB struct {
 	Username string `yaml:"username"`
 	Host     string `yaml:"host"`
@@ -22,4 +27,5 @@ type Config struct {
 	Order   OrderConfig   `yaml:"order"`
 	DB      ConfigDB      `yaml:"db"`
 	Product ProductConfig `yaml:"product"`
+	Auth    AuthConfig    `yaml:"auth"`
 }

@@ -39,7 +39,7 @@ func (db *pDB) Create(ctx context.Context, req *UserRequest) error {
 	}
 
 	user.Email = req.Email
-	user.Password = genPasswordHash(req.Password)
+	user.Password = GenPasswordHash(req.Password)
 	return db.DB.Create(&user).Error
 }
 
@@ -49,15 +49,10 @@ func (db *pDB) Get(ctx context.Context, req *UserRequest) (*models.User, error) 
 	if res := db.DB.WithContext(ctx).Where(&models.User{Email: req.Email}).First(&user); res.Error != nil {
 		return nil, errors.Errorf("user not authorized: %v", res.Error.Error())
 	}
-
-	if user.Password != genPasswordHash(req.Password) {
-		return nil, errors.New("wrong password")
-	}
-
 	return &user, nil
 }
 
-func genPasswordHash(pass string) string {
+func GenPasswordHash(pass string) string {
 	hash := sha1.New()
 	hash.Write([]byte(pass))
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))

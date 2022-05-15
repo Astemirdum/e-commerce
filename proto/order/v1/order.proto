@@ -62,7 +62,6 @@ service OrderService {
 
 message CreateOrderRequest {
   int64 product_id = 1 [json_name = 'product_id'];
-  int64 user_id = 2 [json_name = 'user_id'];
   int64 count = 3 [json_name = 'count'];
 }
 

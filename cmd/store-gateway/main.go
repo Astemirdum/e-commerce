@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"google.golang.org/grpc/metadata"
 	"io"
 	"log"
 	"net"
@@ -102,18 +103,19 @@ func initConfigs() *Config {
 
 func newServer(cfg *Config) http.Server {
 	mux := runtime.NewServeMux(
-	//runtime.WithMetadata(func(ctx context.Context, request *http.Request) metadata.MD {
-	//	token := request.Header.Get("Authorization")
-	//	return metadata.Pairs("auth", token)
-	//}),
-	//runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux,
-	//	marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
-	//	newError := runtime.HTTPStatusError{
-	//		HTTPStatus: 400,
-	//		Err:        err,
-	//	}
-	//	runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
-	//}),
+		runtime.WithMetadata(func(ctx context.Context, request *http.Request) metadata.MD {
+			token := request.Header.Get("Authorization")
+			log.Println("token", token)
+			return metadata.Pairs("auth", token)
+		}),
+		//runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux,
+		//	marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
+		//	newError := runtime.HTTPStatusError{
+		//		HTTPStatus: 400,
+		//		Err:        err,
+		//	}
+		//	runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
+		//}),
 	)
 
 	if err := authv1.RegisterAuthServiceHandlerFromEndpoint(context.Background(), mux,

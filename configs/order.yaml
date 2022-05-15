@@ -7,6 +7,10 @@ product:
   addr: "localhost"
   port: 50052
 
+auth:
+  addr: "localhost"
+  port: 50051
+
 db:
   username: "postgres"
   password: "postgres"

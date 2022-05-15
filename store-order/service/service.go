@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/Astemirdum/e-commerce/cmd/store-gateway/interceptor"
 	"net"
 	"os"
 	"os/signal"
@@ -35,7 +36,16 @@ func Run(cfg *Config) error {
 
 	srv := service.NewOrderServer(repository, log.Named("service"), pc)
 
-	s := grpc.NewServer()
+	auth, err := interceptor.NewAuthClient(
+		fmt.Sprintf("%s:%d", cfg.Auth.Addr, cfg.Auth.Port),
+		log.Named("auth"),
+	)
+	if err != nil {
+		log.Error("grpc conn auth", zap.Error(err))
+		return err
+	}
+
+	s := grpc.NewServer(grpc.UnaryInterceptor(auth.AuthInterceptor))
 	addr := fmt.Sprintf("%s:%d", cfg.Order.Addr, cfg.Order.Port)
 	ls, err := net.Listen("tcp", addr)
 	if err != nil {

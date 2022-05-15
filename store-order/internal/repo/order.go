@@ -18,6 +18,6 @@ func (db *pDB) CreateOrder(ctx context.Context, order *models.Order) error {
 	return db.DB.Debug().WithContext(ctx).Create(order).Error
 }
 
-func (db *pDB) UpdateProduct(ctx context.Context, order *models.Order) error {
+func (db *pDB) UpdateOrder(ctx context.Context, order *models.Order) error {
 	return db.DB.Debug().WithContext(ctx).Save(order).Error
 }

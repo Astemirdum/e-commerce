@@ -13,7 +13,7 @@ type Repository struct {
 
 type OrderRepository interface {
 	CreateOrder(ctx context.Context, order *models.Order) error
-	UpdateProduct(ctx context.Context, order *models.Order) error
+	UpdateOrder(ctx context.Context, order *models.Order) error
 }
 
 func NewOrderRepository(db *gorm.DB) *Repository {
