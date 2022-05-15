@@ -27,12 +27,15 @@ type UserRequest struct {
 	Password string
 }
 
+var (
+	ErrAlreadyExists = errors.New("user already exists")
+)
+
 func (db *pDB) Create(ctx context.Context, req *UserRequest) error {
 	var user models.User
 
 	if db.DB.WithContext(ctx).Where(&models.User{Email: req.Email}).First(nil).Error == nil {
-
-		return errors.New("user already exists")
+		return ErrAlreadyExists
 	}
 
 	user.Email = req.Email

@@ -29,6 +29,11 @@ func main() {
 	fmt.Println(textArt)
 
 	cfg := initConfigs()
+	data, err := yaml.Marshal(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(data))
 
 	addr := fmt.Sprintf("%s:%d", cfg.Addr, cfg.Port)
 	l, err := net.Listen("tcp", addr)
@@ -86,6 +91,7 @@ func initConfigs() *Config {
 		}
 		return cfg
 	}
+	log.Println("USE DEFAULT CONFIG")
 	return &Config{
 		ServerConfig{Addr: "localhost", Port: 8080},
 	}

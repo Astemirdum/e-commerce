@@ -97,6 +97,7 @@ message FindOneResponse{
 message DecreaseStockRequest{
   int64 id = 1 [json_name = 'id'];
   int64 order_id = 2 [json_name = 'order_id'];
+  int64 count = 3 [json_name = 'count'];
 }
 
 message DecreaseStockResponse{}

@@ -2,3 +2,10 @@
 order:
   addr: "localhost"
   port: 50053
+
+db:
+  username: "postgres"
+  password: "postgres"
+  host: "localhost"
+  port: 5432
+  dbname: "store"

@@ -13,15 +13,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-type OrderConfig struct {
-	Addr string `yaml:"addr"`
-	Port int    `yaml:"port"`
-}
-
-func Run(cfg OrderConfig) error {
+func Run(cfg *Config) error {
 
 	s := grpc.NewServer()
-	addr := fmt.Sprintf("%s:%d", cfg.Addr, cfg.Port)
+	addr := fmt.Sprintf("%s:%d", cfg.Order.Addr, cfg.Order.Port)
 	ls, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err

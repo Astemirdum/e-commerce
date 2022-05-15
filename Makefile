@@ -1,6 +1,4 @@
 
 
 proto:
-	buf lint
-	buf build
-	buf generate proto
+	buf lint && buf build && buf generate proto

@@ -2,3 +2,10 @@
 product:
   addr: "localhost"
   port: 50052
+
+db:
+  username: "postgres"
+  password: "postgres"
+  host: "localhost"
+  port: 5432
+  dbname: "store"

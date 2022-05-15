@@ -2,6 +2,9 @@ package service
 
 import (
 	"context"
+	"errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	authv1 "github.com/Astemirdum/e-commerce/gen/auth/v1"
 	"github.com/Astemirdum/e-commerce/store-auth/internal/repo"
@@ -14,7 +17,10 @@ func (s *AuthServer) Register(ctx context.Context, req *authv1.RegisterRequest) 
 		Password: req.GetPassword()},
 	); err != nil {
 		s.log.Error("register user already exists", zap.String("email", req.Email), zap.Error(err))
-		return nil, err
+		if errors.Is(err, repo.ErrAlreadyExists) {
+			return nil, status.Errorf(codes.AlreadyExists, "%v", err)
+		}
+		return nil, status.Errorf(codes.Internal, "create user fail: %v", err)
 	}
 	s.log.Info("register user created", zap.String("email", req.Email))
 	return &authv1.RegisterResponse{}, nil
@@ -27,12 +33,12 @@ func (s *AuthServer) Login(ctx context.Context, req *authv1.LoginRequest) (*auth
 	)
 	if err != nil {
 		s.log.Error("login user does not exist", zap.String("email", req.Email), zap.Error(err))
-		return nil, err
+		return nil, status.Errorf(codes.NotFound, "user does not exist %v", err)
 	}
 	token, err := s.jwt.GenerateToken(user)
 	if err != nil {
 		s.log.Error("generateToken token", zap.String("email", req.Email), zap.Error(err))
-		return nil, err
+		return nil, status.Errorf(codes.Internal, "generateToken token %v", err)
 	}
 	s.log.Info("login token has issued", zap.String("token", token))
 	return &authv1.LoginResponse{Token: token}, nil
@@ -42,13 +48,13 @@ func (s *AuthServer) Validate(ctx context.Context, req *authv1.ValidateRequest) 
 	claims, err := s.jwt.ParseToken(req.GetToken())
 	if err != nil {
 		s.log.Error("parseToken invalid", zap.Error(err))
-		return nil, err
+		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	user, err := s.repo.Get(ctx, &repo.UserRequest{Email: claims.Email})
 	if err != nil {
 		s.log.Error("validate user does not exist", zap.String("email", claims.Email), zap.Error(err))
-		return nil, err
+		return nil, status.Errorf(codes.NotFound, "%v", err)
 	}
 
 	s.log.Info("login token has issued", zap.Int64("UserId", user.Id))

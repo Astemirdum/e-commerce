@@ -11,7 +11,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=store
     networks:
       - grpc-gateway
 
@@ -24,8 +24,6 @@ services:
       - 8080:8080
     depends_on:
       - postgres
-    environment:
-      - DB_PASSWORD=postgres
     networks:
       - grpc-gateway
 
@@ -38,8 +36,6 @@ services:
       - 50051:50051
     depends_on:
       - postgres
-    environment:
-      - DB_PASSWORD=postgres
     networks:
       - grpc-gateway
 
@@ -52,8 +48,6 @@ services:
       - 50052:50052
     depends_on:
       - postgres
-    environment:
-      - DB_PASSWORD=postgres
     networks:
       - grpc-gateway
 
@@ -66,8 +60,6 @@ services:
       - 50053:50053
     depends_on:
       - postgres
-    environment:
-      - DB_PASSWORD=postgres
     networks:
       - grpc-gateway
 

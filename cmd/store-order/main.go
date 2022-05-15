@@ -17,17 +17,18 @@ func main() {
 	fmt.Println(textArt)
 
 	cfg := initConfigs()
+	data, err := yaml.Marshal(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(data))
 
-	if err := service.Run(cfg.Order); err != nil {
+	if err := service.Run(cfg); err != nil {
 		log.Fatal(err)
 	}
 }
 
-type Config struct {
-	Order service.OrderConfig `yaml:"order"`
-}
-
-func initConfigs() *Config {
+func initConfigs() *service.Config {
 	var cfgPath string
 	flag.StringVar(&cfgPath, "c", "", "config file")
 	flag.Parse()
@@ -43,14 +44,22 @@ func initConfigs() *Config {
 		if err != nil {
 			log.Fatal(err)
 		}
-		cfg := &Config{}
+		cfg := &service.Config{}
 		err = yaml.Unmarshal(data, &cfg)
 		if err != nil {
 			log.Fatal(err)
 		}
 		return cfg
 	}
-	return &Config{
+	log.Println("USE DEFAULT CONFIG")
+	return &service.Config{
 		Order: service.OrderConfig{Addr: "localhost", Port: 50053},
+		DB: service.ConfigDB{
+			Username: "postgres",
+			Host:     "localhost",
+			Port:     5432,
+			Dbname:   "store",
+			Password: "postgres",
+		},
 	}
 }

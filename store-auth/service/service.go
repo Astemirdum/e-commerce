@@ -31,7 +31,7 @@ func Run(cfg *Config) error {
 	srv := service.NewAuthServer(
 		repository,
 		service.NewJwtWrapper(cfg.Auth.SecretKey, "store-auth", 15),
-		zap.NewExample().Named("service"),
+		log.Named("service"),
 	)
 
 	s := grpc.NewServer()
