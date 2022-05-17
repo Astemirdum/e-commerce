@@ -29,6 +29,14 @@
 make run
 ```
 
+#### commands to run app natively (don't forget about postgres)
+```
+go run cmd/store-gateway/main.go -c "configs/gateway.yaml"
+go run cmd/store-auth/main.go -c "configs/auth.yaml"
+go run cmd/store-product/main.go -c "configs/product.yaml"
+go run cmd/store-order/main.go -c "configs/order.yaml"
+```
+
 #### to generate proto
 ```
 make gen-proto
