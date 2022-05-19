@@ -1,10 +1,10 @@
-package service
+package jwtoken
 
 import (
 	"errors"
 	"time"
 
-	"github.com/Astemirdum/e-commerce/store-auth/internal/models"
+	"github.com/Astemirdum/e-commerce/store-auth/models"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -14,10 +14,17 @@ type JwtWrapper struct {
 	TokenTTL  time.Duration
 }
 
-type jwtClaims struct {
+type JwtClaims struct {
 	jwt.StandardClaims
 	UserId int64
 	Email  string
+}
+
+//go:generate mockgen -source=jwt.go -destination=mocks/mock.go
+
+type JwtToken interface {
+	ParseToken(accessToken string) (*JwtClaims, error)
+	GenerateToken(user *models.User) (string, error)
 }
 
 func NewJwtWrapper(secretKey string, issuer string, tokenTTL time.Duration) *JwtWrapper {
@@ -28,8 +35,8 @@ func NewJwtWrapper(secretKey string, issuer string, tokenTTL time.Duration) *Jwt
 	}
 }
 
-func (jw *JwtWrapper) ParseToken(accessToken string) (*jwtClaims, error) {
-	jwtToken, err := jwt.ParseWithClaims(accessToken, &jwtClaims{},
+func (jw *JwtWrapper) ParseToken(accessToken string) (*JwtClaims, error) {
+	jwtToken, err := jwt.ParseWithClaims(accessToken, &JwtClaims{},
 		func(token *jwt.Token) (any, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, errors.New("wrong signing method")
@@ -39,12 +46,12 @@ func (jw *JwtWrapper) ParseToken(accessToken string) (*jwtClaims, error) {
 	if err != nil {
 		return nil, err
 	}
-	myClaims, _ := jwtToken.Claims.(*jwtClaims)
+	myClaims, _ := jwtToken.Claims.(*JwtClaims)
 	return myClaims, nil
 }
 
 func (jw *JwtWrapper) GenerateToken(user *models.User) (string, error) {
-	claims := jwtClaims{
+	claims := JwtClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Minute * jw.TokenTTL).UTC().Unix(),
 			IssuedAt:  time.Now().UTC().Unix(),

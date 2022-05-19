@@ -3,8 +3,8 @@ package repo
 import (
 	"context"
 	"errors"
+	"github.com/Astemirdum/e-commerce/store-product/models"
 
-	"github.com/Astemirdum/e-commerce/store-product/internal/models"
 	"gorm.io/gorm"
 )
 

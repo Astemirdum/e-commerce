@@ -14,8 +14,8 @@ import (
 func (s *AuthServer) Register(ctx context.Context, req *authv1.RegisterRequest) (*authv1.RegisterResponse, error) {
 	if err := s.repo.Create(ctx, &repo.UserRequest{
 		Email:    req.GetEmail(),
-		Password: req.GetPassword()},
-	); err != nil {
+		Password: req.GetPassword(),
+	}); err != nil {
 		s.log.Error("register user already exists", zap.String("email", req.Email), zap.Error(err))
 		if errors.Is(err, repo.ErrAlreadyExists) {
 			return nil, status.Errorf(codes.AlreadyExists, "%v", err)

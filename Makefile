@@ -5,4 +5,7 @@ run:
 gen-proto:
 	buf build && buf generate proto
 
-.PHONY: run, gen-proto
+test:
+	 go test -v ./...
+
+.PHONY: run, gen-proto, test

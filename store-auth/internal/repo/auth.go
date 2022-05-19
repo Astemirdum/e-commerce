@@ -4,8 +4,8 @@ import (
 	"context"
 	"crypto/sha1"
 	"fmt"
+	"github.com/Astemirdum/e-commerce/store-auth/models"
 
-	"github.com/Astemirdum/e-commerce/store-auth/internal/models"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )

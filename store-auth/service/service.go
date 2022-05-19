@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/Astemirdum/e-commerce/store-auth/internal/service/jwtoken"
 	"net"
 	"os"
 	"os/signal"
@@ -29,7 +30,7 @@ func Run(cfg *Config) error {
 
 	srv := service.NewAuthServer(
 		repository,
-		service.NewJwtWrapper(cfg.Auth.SecretKey, "store-auth", 15),
+		jwtoken.NewJwtWrapper(cfg.Auth.SecretKey, "store-auth", 15),
 		log.Named("service"),
 	)
 

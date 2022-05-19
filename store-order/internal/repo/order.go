@@ -2,8 +2,8 @@ package repo
 
 import (
 	"context"
+	"github.com/Astemirdum/e-commerce/store-order/models"
 
-	"github.com/Astemirdum/e-commerce/store-order/internal/models"
 	"gorm.io/gorm"
 )
 

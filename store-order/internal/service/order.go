@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
+	"github.com/Astemirdum/e-commerce/store-order/models"
 
 	"github.com/Astemirdum/e-commerce/cmd/store-gateway/interceptor"
 	orderv1 "github.com/Astemirdum/e-commerce/gen/order/v1"
 	productv1 "github.com/Astemirdum/e-commerce/gen/product/v1"
-	"github.com/Astemirdum/e-commerce/store-order/internal/models"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

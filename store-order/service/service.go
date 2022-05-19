@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/Astemirdum/e-commerce/store-order/client"
 	"net"
 	"os"
 	"os/signal"
@@ -9,7 +10,6 @@ import (
 
 	"github.com/Astemirdum/e-commerce/cmd/store-gateway/interceptor"
 	orderv1 "github.com/Astemirdum/e-commerce/gen/order/v1"
-	"github.com/Astemirdum/e-commerce/store-order/internal/client"
 	"github.com/Astemirdum/e-commerce/store-order/internal/repo"
 	"github.com/Astemirdum/e-commerce/store-order/internal/service"
 	"go.uber.org/zap"

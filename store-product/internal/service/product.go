@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/Astemirdum/e-commerce/store-product/models"
 
 	productv1 "github.com/Astemirdum/e-commerce/gen/product/v1"
-	"github.com/Astemirdum/e-commerce/store-product/internal/models"
 	"github.com/Astemirdum/e-commerce/store-product/internal/repo"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"

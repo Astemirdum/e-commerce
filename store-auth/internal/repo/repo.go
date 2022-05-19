@@ -2,11 +2,14 @@ package repo
 
 import (
 	"context"
+	"github.com/Astemirdum/e-commerce/store-auth/models"
 
-	"github.com/Astemirdum/e-commerce/store-auth/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+//go:generate mockgen -source=repo.go -destination=mocks/mock.go
+// github.com/golang/mock
 
 type AuthRepository interface {
 	Create(ctx context.Context, req *UserRequest) error

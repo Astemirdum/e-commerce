@@ -2,7 +2,7 @@ package repo
 
 import (
 	"context"
-	"github.com/Astemirdum/e-commerce/store-product/internal/models"
+	"github.com/Astemirdum/e-commerce/store-product/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
