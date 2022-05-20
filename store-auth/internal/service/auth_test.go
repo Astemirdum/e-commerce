@@ -106,7 +106,7 @@ func TestAuthServer_Register(t *testing.T) {
 			tt.mockBehavior(rep, tt.input.userReq)
 
 			auth := &AuthServer{
-				repo: &repo.Repository{rep},
+				repo: &repo.Repository{AuthRepository: rep},
 				log:  log,
 			}
 			resp, err := auth.Register(ctx, tt.input.req)
@@ -249,7 +249,7 @@ func TestAuthServer_Login(t *testing.T) {
 			tt.mockBehavior(rep, jwt, tt.input.userReq)
 
 			auth := &AuthServer{
-				repo: &repo.Repository{rep},
+				repo: &repo.Repository{AuthRepository: rep},
 				jwt:  jwt,
 				log:  log,
 			}

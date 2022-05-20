@@ -149,7 +149,7 @@ func TestProductServer_DecreaseStock(t *testing.T) {
 			tt.mockBehavior(ctx, rep, tt.input.req)
 
 			product := &ProductServer{
-				repo: &repo.Repository{rep},
+				repo: &repo.Repository{ProductRepository: rep},
 				log:  log,
 			}
 			resp, err := product.DecreaseStock(ctx, tt.input.req)

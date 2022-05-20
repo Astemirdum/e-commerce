@@ -121,8 +121,8 @@ func TestOrderServer_CreateOrder(t *testing.T) {
 			tt.mockBehavior(tt.input.ctx, rep, pr, tt.input.req)
 
 			order := &OrderServer{
-				repo:          &repo.Repository{rep},
-				productClient: &client.ProductClientService{pr},
+				repo:          &repo.Repository{OrderRepository: rep},
+				productClient: &client.ProductClientService{ProductServiceClient: pr},
 				log:           log,
 			}
 			resp, err := order.CreateOrder(tt.input.ctx, tt.input.req)

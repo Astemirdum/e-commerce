@@ -1,0 +1,42 @@
+name: e-commerce
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.18
+        # id: go
+
+      - name: Install dependencies
+        run: |
+          go version
+          go get -u golang.org/x/lint/golint
+
+      - uses: actions/checkout@v2
+
+      - name: Run vet & lint
+        run: |
+          go vet ./...
+          golint .
+
+      - name: Test
+          run: go test -v ./...
+
+      - name: Build
+        run: go build -v cmd/store-gateway/main.go # pg conn needs for others
+
+

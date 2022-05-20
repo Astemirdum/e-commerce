@@ -29,6 +29,11 @@
 make run
 ```
 
+#### to run tests
+```
+make test
+```
+
 #### commands to run app natively (don't forget about postgres)
 ```
 go run cmd/store-gateway/main.go -c "configs/gateway.yaml"
@@ -40,6 +45,11 @@ go run cmd/store-order/main.go -c "configs/order.yaml"
 #### to generate proto
 ```
 make gen-proto
+```
+
+#### to generate mocks
+```
+make mocks
 ```
 
 ### e-commerce design:
