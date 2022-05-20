@@ -11,6 +11,8 @@ type Repository struct {
 	ProductRepository
 }
 
+//go:generate mockgen -source=repo.go -destination=mocks/mock.go
+
 type ProductRepository interface {
 	CreateProduct(ctx context.Context, product *models.Product) (int64, error)
 	FindOne(ctx context.Context, productId int64) (*models.Product, error)
