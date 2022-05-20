@@ -24,13 +24,12 @@ jobs:
           go version
           go get -u golang.org/x/lint/golint
 
-      - name: Verify dependencies
-        run: go mod verify
-
       - name: Run vet & lint
         run: |
           go vet ./...
-          golint ./...
+
+      - name: Verify dependencies
+      run: go mod verify
 
       - name: Run test
         run: go test -v  ./...
