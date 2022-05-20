@@ -30,8 +30,8 @@ jobs:
           golint ./...
 
       - name: Run test
-          run: |
-            go test -v ./...
+        run: |
+          go test -v ./...
 
       - name: Build
         run: go build -v cmd/store-gateway/main.go # pg conn needs for others
