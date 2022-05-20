@@ -20,7 +20,7 @@ jobs:
           go-version: 1.18
 
       - name: Install dependencies
-          run: |
+        run: |
           go version
           go get -u golang.org/x/lint/golint
 
