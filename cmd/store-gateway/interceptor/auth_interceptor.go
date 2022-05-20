@@ -79,8 +79,7 @@ func (a *AuthClient) AuthInterceptor(ctx context.Context,
 }
 
 func GetUserFromCtx(ctx context.Context) (int64, error) {
-	id := ctx.Value("user_id")
-	userId, ok := id.(int64)
+	userId, ok := ctx.Value("user_id").(int64)
 	if !ok {
 		return 0, errors.New("no user_id")
 	}

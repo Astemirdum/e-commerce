@@ -12,6 +12,8 @@ type Repository struct {
 	OrderRepository
 }
 
+//go:generate mockgen -source=repo.go -destination=mocks/mock.go
+
 type OrderRepository interface {
 	CreateOrder(ctx context.Context, order *models.Order) error
 	UpdateOrder(ctx context.Context, order *models.Order) error

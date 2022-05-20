@@ -66,7 +66,6 @@ func Run(cfg *Config) error {
 	log.Info("graceful shutdown")
 	_ = ls.Close()
 	s.GracefulStop()
-	_ = pc.Close()
 
 	return nil
 }
