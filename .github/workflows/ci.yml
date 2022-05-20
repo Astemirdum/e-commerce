@@ -19,13 +19,13 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Install dependencies
-        run: |
-          go version
-          go get -u golang.org/x/lint/golint
+#      - name: Install dependencies
+#        run: |
+#          go version
+#          go get -u golang.org/x/lint/golint
 
-      - name: Verify dependencies
-        run: go mod verify
+#      - name: Verify dependencies
+#        run: go mod verify
 
       - name: Run vet & lint
         run: |
@@ -35,7 +35,7 @@ jobs:
       - name: Run test
         run: go test -v  ./...
 
-      - name: Build
-        run: go build -v cmd/store-gateway/main.go # pg conn needs for others
+#      - name: Build
+#        run: go build -v cmd/store-gateway/main.go # pg conn needs for others
 
 
