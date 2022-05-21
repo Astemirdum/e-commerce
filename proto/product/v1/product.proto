@@ -15,7 +15,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     version: "v1";
   };
   schemes: [HTTP, HTTPS];
-  base_path: "/api/v1";
+  base_path: "";
   consumes: "application/json";
   produces: "application/json";
   responses: {
@@ -54,7 +54,7 @@ service ProductService {
       summary: "create product";
     };
     option (google.api.http) = {
-      post: "/create-product";
+      post: "/api/v1/create-product";
       body: "*"
     };
   }
@@ -63,7 +63,7 @@ service ProductService {
       summary: "find available product";
     };
     option (google.api.http) = {
-      get: "/get-product/{id}";
+      get: "/api/v1/get-product/{id}";
     };
   }
   rpc DecreaseStock(DecreaseStockRequest) returns (DecreaseStockResponse) {}

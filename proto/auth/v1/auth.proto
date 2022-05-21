@@ -15,7 +15,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     version: "v1";
   };
   schemes: [HTTP, HTTPS];
-  base_path: "/api/v1/auth";
+  base_path: "";
   consumes: "application/json";
   produces: "application/json";
   responses: {
@@ -54,7 +54,7 @@ service AuthService {
       summary: "register user";
     };
     option (google.api.http) = {
-      post: "/auth/register";
+      post: "/api/v1/auth/register";
       body: "*"
     };
   }
@@ -63,7 +63,7 @@ service AuthService {
       summary: "login user";
     };
     option (google.api.http) = {
-      post: "/auth/login";
+      post: "/api/v1/auth/login";
       body: "*"
     };
   }

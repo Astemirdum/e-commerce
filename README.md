@@ -8,6 +8,8 @@
 - Postgres database using <a href="https://gorm.io">gorm</a> framework.
 - Graceful Shutdown.
 - Running app in docker containers (docker-compose).
+- CI (GitHub Action)
+- Having Swagger 
 
 ### Service consists of 4 microservices:
 - gateway
@@ -33,6 +35,14 @@ make run
 ```
 make test
 ```
+
+#### to use swagger
+```
+paths:
+  "/swagger-ui" - Swagger-UI -> 
+  "/swagger/{name}" - auth | product | order 
+```
+
 
 #### commands to run app natively (don't forget about postgres)
 ```

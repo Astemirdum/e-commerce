@@ -9,7 +9,6 @@
       "name": "ProductService"
     }
   ],
-  "basePath": "/api/v1",
   "schemes": [
     "http",
     "https"
@@ -21,7 +20,7 @@
     "application/json"
   ],
   "paths": {
-    "/create-product": {
+    "/api/v1/create-product": {
       "post": {
         "summary": "create product",
         "operationId": "ProductService_Create",
@@ -72,7 +71,7 @@
         ]
       }
     },
-    "/get-product/{id}": {
+    "/api/v1/get-product/{id}": {
       "get": {
         "summary": "find available product",
         "operationId": "ProductService_FindOne",

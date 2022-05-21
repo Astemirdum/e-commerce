@@ -9,7 +9,6 @@
       "name": "OrderService"
     }
   ],
-  "basePath": "/api/v1",
   "schemes": [
     "http",
     "https"
@@ -21,7 +20,7 @@
     "application/json"
   ],
   "paths": {
-    "/create-order": {
+    "/api/v1/create-order": {
       "post": {
         "summary": "create product",
         "operationId": "OrderService_CreateOrder",

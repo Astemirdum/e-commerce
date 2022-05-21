@@ -15,7 +15,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     version: "v1";
   };
   schemes: [HTTP, HTTPS];
-  base_path: "/api/v1";
+  base_path: "";
   consumes: "application/json";
   produces: "application/json";
   responses: {
@@ -54,7 +54,7 @@ service OrderService {
      summary: "create product";
    };
    option (google.api.http) = {
-     post: "/create-order";
+     post: "/api/v1/create-order";
      body: "*";
    };
  }
